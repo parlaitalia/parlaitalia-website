@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParlaItalia - Parla italiano. Vivi meglio l'Italia.</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+:root{--green:#008C45;--dark:#0F3D24;--red:#CD212A;--bg:#F6F8F6}
+body{background:#fff;color:#111;line-height:1.5}
+button{cursor:pointer} a{cursor:pointer}
+header{position:sticky;top:0;background:#fff;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee;gap:10px}
+.logo{font-size:26px;font-weight:900}.logo em{color:var(--red);font-style:normal}
+nav{display:none;gap:20px;font-weight:600}@media(min-width:900px){nav{display:flex}}
+.btn{background:var(--green);color:#fff;border:0;padding:11px 18px;border-radius:999px;font-weight:700}
+.btn-red{background:var(--red)}.btn-white{background:#fff;color:#111;border:1px solid #ddd;padding:11px 18px;border-radius:999px;font-weight:700}
+.ghost{background:transparent;border:1px solid #ddd;padding:10px 14px;border-radius:999px}
+.btn-sm{padding:8px 14px;font-size:13px}
+.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(90deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.75) 45%,transparent 70%),url('https://images.unsplash.com/photo-1533676802871-eca1ae998cd5?w=1400&q=80') center/cover;min-height:460px;display:flex;align-items:center;padding:30px 18px}
+.hero h1{font-size:44px;line-height:.95}@media(max-width:600px){.hero h1{font-size:38px}}
+.hero h1 i{color:var(--red);font-style:normal}.hero p{margin:14px 0;font-size:17px}
+.badge{display:inline-flex;gap:8px;background:#fff;border:1px solid #eee;padding:8px 12px;border-radius:999px;margin-top:14px;font-size:13px;font-weight:600}
+.wrap{max-width:1150px;margin:auto;padding:26px 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:#fff;border:1px solid #eee;border-radius:18px;padding:18px;cursor:pointer}.card:hover{border-color:var(--green)}
+.card .icon{width:48px;height:48px;border-radius:14px;background:#E8F5ED;display:grid;place-items:center;font-size:24px}
+.card h3{margin:10px 0 4px}.card p{color:#555;font-size:14px}.card small{color:var(--green);font-weight:700}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tabs button{padding:9px 16px;border-radius:999px;border:1px solid #ddd;background:#fff;font-weight:700}.tabs button.active{background:var(--dark);color:#fff}
+.live-box{background:var(--green);color:#fff;border-radius:20px;padding:20px}.live-card{background:#fff;color:#111;border-radius:16px;padding:14px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.how{display:grid;grid-template-columns:1fr;gap:12px}@media(min-width:900px){.how{grid-template-columns:repeat(4,1fr)}}
+.path{background:var(--bg);border-radius:18px;padding:18px;margin-top:22px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:6px 0;font-size:15px}
+.lesson-hero{background:#E8F5ED;border-radius:18px;padding:22px}
+.quiz{background:#FFF7E6;border:1px solid #FFE2A8;border-radius:16px;padding:16px;margin-top:14px}
+.video-box{background:#111;color:#fff;border-radius:18px;padding:30px;text-align:center}
+.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:14px}.controls button{padding:11px 16px;border-radius:999px;border:1px solid #ddd;background:#fff;font-weight:600}.controls button.off{background:var(--red);color:#fff}
+.admin{display:grid;grid-template-columns:200px 1fr;min-height:100vh}@media(max-width:700px){.admin{grid-template-columns:1fr}}
+.sidebar{background:var(--dark);color:#fff;padding:20px}.sidebar button{display:block;width:100%;text-align:left;background:transparent;color:#fff;border:0;padding:11px 10px;border-radius:10px;font-weight:600;white-space:nowrap}.sidebar button.active,.sidebar button:hover{background:#fff;color:#111}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #eee;padding:12px;border-radius:12px;margin:8px 0;background:#fff}
+.setting{display:flex;justify-content:space-between;align-items:center;padding:13px;border:1px solid #eee;border-radius:12px;margin:8px 0;background:#fff}
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}@media(max-width:600px){.stat{grid-template-columns:1fr 1fr}}
+.stat div{background:#fff;border:1px solid #eee;border-radius:14px;padding:14px;text-align:center}.stat b{font-size:22px}
+.footer{background:#111;color:#fff;padding:22px;text-align:center;margin-top:30px}
+.edit-box{display:none;background:#fff;border:2px solid var(--green);border-radius:16px;padding:16px;margin-top:12px}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+<header><div class="logo">Parla<em>Italia</em></div><nav><a onclick="go('home')">Corsi</a><a onclick="go('home')">Percorso</a><a onclick="go('home')">Blog</a><a onclick="go('admin')">Chi siamo</a></nav><div style="display:flex;gap:8px"><button class="ghost" onclick="go('login')">Accedi</button><button class="btn" onclick="go('login')">Inizia →</button></div></header>
+<div class="hero"><div style="max-width:620px"><h1>Parla italiano.<br><i>Vivi</i> meglio l'Italia.</h1><p>Dalla prima parola alla conversazione.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="go('login')">Inizia il tuo viaggio →</button><button class="btn-white" onclick="document.getElementById('come').scrollIntoView()">Guarda come funziona ▶</button></div><div class="badge">❤️ Impara Italiano • Scopri l'Italia | 📍 Lago di Como</div></div></div>
+<div class="wrap">
+<div style="display:flex;justify-content:space-between"><div><h2>Lezioni <span id="levelTitle">A1</span></h2><p style="color:#555">Segui il tuo piano per raggiungere i tuoi obiettivi.</p></div><b>Vedi tutto →</b></div>
+<div class="tabs" id="levelTabs"></div><div class="grid" id="lessonGrid"></div>
+<div class="live-box" style="margin-top:26px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><h2>🔴 Lezioni Live</h2><p>Parla in diretta con tutor madrelingua</p></div><button class="btn btn-red" onclick="go('live')">Entra in Live →</button></div><div id="liveHomeList"></div></div>
+<div id="come" style="margin-top:28px"><h2>Come funziona</h2><p style="color:#555">Impara passo dopo passo.</p><div class="how" style="margin-top:12px">
+<div class="card" onclick="openLessonByName('Saluti')"><div class="icon">📖</div><h3>1. Impara</h3><p>Lezioni brevi e interattive.</p><b>Inizia →</b></div>
+<div class="card" onclick="openLessonByName('Alfabeto')"><div class="icon">📚</div><h3>2. Studia</h3><p>Lezioni interattive per il tuo livello.</p><b>Studia →</b></div>
+<div class="card" onclick="openLessonByName('Verbi')"><div class="icon">💬</div><h3>3. Pratica</h3><p>Esercizi, dialoghi e attività reali.</p><b>Pratica →</b></div>
+<div class="card" onclick="go('live')"><div class="icon">👥</div><h3>4. Parla</h3><p>Simulazioni e scenari di vita reale.</p><b>Live →</b></div></div></div>
+<div class="path" id="percorso"><h2>Il tuo percorso di apprendimento</h2><div class="tabs"><button class="active" onclick="setLevel('A1',this)">A1 Principiante</button><button onclick="setLevel('A2',this)">A2 Elementare</button><button onclick="setLevel('B1',this)">B1 Intermedio</button><button onclick="setLevel('B2',this)">B2 Avanzato</button></div><p><b id="pathText">A1 - 6 lezioni pronte.</b></p></div>
+</div><div class="footer">ParlaItalia © 2026 • <a onclick="go('admin')" style="color:#fff"><u>Teacher / Super Admin Login</u></a></div>
+</div>
+
+<!-- LESSON -->
+<div id="page-lesson" class="page"><header><button class="ghost" onclick="go('home')">← Return to Home</button><b id="lessonTop">Lezione</b><button class="btn btn-sm" onclick="go('live')">🔴 Live</button></header>
+<div class="wrap"><div class="lesson-hero"><small id="lessonLevel">A1 • Lezione</small><h2 id="lessonName" style="font-size:32px">Saluti</h2><p id="lessonDesc"></p></div>
+<div class="video-box" style="margin-top:14px">🎥 Video Lezione<br><button class="btn" style="margin-top:10px" onclick="alert('Video chal raha hai ▶')">▶ Play Video</button></div>
+<div style="background:#fff;border:1px solid #eee;border-radius:16px;padding:18px;margin-top:14px"><h3>📝 Mawad / Materiale</h3><p id="lessonBody" style="white-space:pre-line"></p><div id="lessonMaterials" style="margin-top:12px"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="ghost" onclick="alert('PDF download 📄')">📄 Scarica PDF</button><button class="ghost" onclick="alert('Audio 🔊')">🔊 Audio</button></div></div>
+<div class="quiz"><h3>✍️ Quiz</h3><p id="quizQ" style="margin:8px 0;font-weight:700"></p><div id="quizBtns"></div><p id="quizResult"></p></div>
+<button class="btn" style="margin-top:14px;width:100%" onclick="completeLesson()">✅ Segna come Completata</button><button class="ghost" style="margin-top:8px;width:100%" onclick="go('home')">← Torna alla Home</button></div></div>
+
+<!-- LIVE -->
+<div id="page-live" class="page"><header><button class="ghost" onclick="go('home')">← Return to Home</button><b>🔴 Lezione Live - Conversazione A2 con Maria</b><button class="ghost" onclick="go('admin')">Teacher Panel</button></header>
+<div class="wrap" style="text-align:center"><div class="video-box" style="padding:50px 20px"><span style="font-size:52px">👩‍🏫</span><h2>Maria - LIVE</h2><p>Ahmed • Fatima • Ali • Sara - Online</p></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px"><div class="card">👦 Ahmed</div><div class="card">🧕 Fatima</div><div class="card">👦 Ali</div><div class="card">👧 Sara</div></div>
+<div class="controls"><button onclick="toggleCtrl(this)">🎤 Mute</button><button onclick="toggleCtrl(this)">📷 Camera</button><button onclick="alert('Chat 💬')">💬 Chat</button><button onclick="alert('Haath ✋')">✋ Hand Raise</button><button onclick="go('settings')">⚙️ Settings</button></div>
+<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-red" onclick="go('home')">Leave - Torna alla Home</button><button class="ghost" onclick="go('admin')">📋 Attendance</button></div></div></div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page"><header><button class="ghost" onclick="go('live')">← Torna alla Live</button><b>⚙️ Settings Bar</b><button class="ghost" onclick="go('home')">Home</button></header>
+<div class="wrap"><h2>Impostazioni</h2><div class="setting"><span>🌐 Language</span><select style="width:180px"><option>Italiano</option><option>English</option><option>Urdu</option></select></div><div class="setting"><span>🔔 Notifications</span><select style="width:180px"><option>Enabled</option><option>Disabled</option></select></div><div class="setting"><span>🎥 Video Quality</span><select style="width:180px"><option>HD 1080p</option><option>HD 720p</option><option>480p</option></select></div><button class="btn" style="width:100%;margin-top:10px" onclick="alert('Settings Save ✅');go('live')">Save Settings</button></div></div>
+
+<!-- LOGIN -->
+<div id="page-login" class="page"><div class="wrap" style="max-width:440px"><h2 style="font-size:32px">Bentornato!</h2><input placeholder="Email"><input type="password" placeholder="Password"><button class="btn" style="width:100%" onclick="go('home')">Entra come Studente →</button><button class="ghost" style="width:100%;margin-top:10px" onclick="go('admin')">Entra come Teacher / Super Admin</button><button class="ghost" style="width:100%;margin-top:10px" onclick="go('home')">← Torna alla Home</button></div></div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page"><div class="admin"><div class="sidebar"><h2>ParlaItalia <small>Super Admin</small></h2><p style="opacity:.8;font-size:13px;margin:8px 0">Ciao Maria 👋 Teacher</p>
+<button class="active" onclick="adminTab('dash',this)">📊 Dashboard</button><button onclick="adminTab('lessons',this)">📚 Lezioni Control</button><button onclick="adminTab('live',this)">🔴 Live Class Control</button><button onclick="adminTab('students',this)">👥 Studenti + Attendance</button><button onclick="adminTab('settings',this)">⚙️ Impostazioni</button><button onclick="go('home')">← Return to Home</button><button onclick="go('live')">🔴 Live me Jao</button></div>
+<div style="padding:18px;background:#F6F8F6">
+<div id="tab-dash"><h2>Dashboard</h2><div class="stat" style="margin:12px 0"><div><b id="statStudents">6</b><br>Studenti</div><div><b id="statLessons">12</b><br>Lezioni</div><div><b>3</b><br>Live Oggi</div><div><b>87%</b><br>Attendance</div></div><div class="card" style="cursor:default"><h3>📋 Aaj Ki Attendance</h3><div id="attDash"></div><button class="btn btn-sm" style="margin-top:10px" onclick="alert('Attendance Save ✅')">Save Attendance</button></div></div>
+<div id="tab-lessons" style="display:none"><h2>Lezioni - Add / Edit / Delete / Mawad</h2><select id="newLevel"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select><input id="newLessonName" placeholder="Nayi Lesson ka naam"><textarea id="newLessonBody" placeholder="Mawad yahan likho..."></textarea><button class="btn" onclick="addLesson()">+ Add Lesson</button><div id="adminLessonList"></div>
+<!-- EDIT BOX -->
+<div id="editBox" class="edit-box"><h3>✏️ Edit Lesson: <span id="editLessonName">Saluti</span></h3><label>Naam:</label><input id="editName"><label>Mawad / Text:</label><textarea id="editBody" rows="4"></textarea><h4 style="margin-top:12px">📚 Material List - Remove kar sakte ho</h4><div id="materialList"></div><h4 style="margin-top:12px">➕ Naya Material Add Karo</h4><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-sm" onclick="addMaterial('Text')">+ Add Text</button><button class="btn btn-sm" onclick="addMaterial('Video')">+ Add Video 🎥</button><button class="btn btn-sm" onclick="addMaterial('PDF')">+ Add PDF 📄</button><button class="btn btn-sm" onclick="addMaterial('Quiz')">+ Add Quiz ✍️</button></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn" style="flex:1" onclick="saveEdit()">✅ Save Karo</button><button class="btn btn-red" style="flex:1" onclick="closeEdit()">❌ Band Karo</button></div></div>
+</div>
+<div id="tab-live" style="display:none"><h2>Live Class Control</h2><input id="liveTitle" value="Conversazione A2"><input id="liveTime" value="Oggi 18:00"><select id="liveTutor"><option>Maria</option><option>Luca</option><option>Giulia</option></select><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="saveLive()">Save Live ✅</button><button class="btn btn-red" onclick="alert('Live OFF')">🔴 LIVE OFF</button><button class="btn" style="background:#111" onclick="go('live')">▶ Start Live</button></div><div id="adminLiveList" style="margin-top:12px"></div></div>
+<div id="tab-students" style="display:none"><h2>Studenti + Attendance</h2><input id="newStudent" placeholder="Naye Student ka naam"><button class="btn" onclick="addStudent()">+ Add Student</button><div id="attStudents"></div></div>
+<div id="tab-settings" style="display:none"><h2>Settings Bar - Teacher Control</h2><div class="setting"><span>🌐 Language</span><b>Italiano / English / Urdu</b></div><div class="setting"><span>🔔 Notifications</span><b>ON / OFF</b></div><div class="setting"><span>🎥 Video Quality</span><b>HD 1080p</b></div><div class="setting"><span>👥 Max Students</span><b>50</b></div><button class="btn" onclick="alert('Settings Save ✅')">Save Settings</button></div>
+</div></div></div>
+
+<script>
+let currentLevel='A1';
+let lessons={
+ A1:[
+  {name:'Saluti',icon:'👋',desc:'Impara saluti essenziali e presentazioni.',body:'Ciao = Hello\nBuongiorno = Good Morning\nGrazie = Thank You\n\n- Ciao, come stai? = Hello, how are you?',q:'Ciao ka matlab?',opts:['Hello','Bye','Thanks'],ans:0,materials:[{type:'Text',title:'Ciao = Hello'},{type:'Video',title:'Saluti Video'},{type:'PDF',title:'Saluti PDF'},{type:'Quiz',title:'Ciao ka matlab?'}]},
+  {name:'Alfabeto',icon:'🔤',desc:"Scopri l'alfabeto italiano.",body:'Italiano me 21 letters hain.\nA B C D E...',q:'Kitne letters?',opts:['21','26','18'],ans:0,materials:[{type:'Text',title:'Alfabeto Text'},{type:'Video',title:'Alfabeto Video'}]},
+  {name:'Verbi',icon:'⚡',desc:'I verbi essere e avere.',body:'Io sono, Tu sei, Lui è\nIo ho, Tu hai, Lui ha',q:'Io ___ italiano?',opts:['sono','sei','è'],ans:0,materials:[{type:'Text',title:'Verbi Text'}]},
+  {name:'Numeri',icon:'🔢',desc:'Impara numeri.',body:'1 Uno, 2 Due, 3 Tre, 4 Quattro, 5 Cinque',q:'Tre ka matlab?',opts:['3','5','2'],ans:0,materials:[{type:'Text',title:'Numeri Text'}]},
+  {name:'Pronuncia',icon:'🎤',desc:'Esercita pronuncia.',body:'Ciao = chao, Grazie = gra-tsie',q:'Grazie kaise?',opts:['gra-tsie','gra-zi','gra-ce'],ans:0,materials:[{type:'Video',title:'Pronuncia Video'}]},
+  {name:'Certificato',icon:'🏆',desc:'Preparati per certificato.',body:'Sab lessons complete karo, 80% chahiye.',q:'Kitne % chahiye?',opts:['80%','50%','30%'],ans:0,materials:[{type:'PDF',title:'Certificato PDF'}]}
+ ],
+ A2:[
+  {name:'Conversazione',icon:'💬',desc:'Famiglia, lavoro, vita quotidiana.',body:'Dove abiti? = Where do you live?\nAbito a Milano.',q:'Dove abiti?',opts:['Where do you live?','What is name?','How old?'],ans:0,materials:[{type:'Text',title:'Conversazione Text'}]},
+  {name:'Grammatica A2',icon:'📖',desc:'Passato prossimo.',body:'Ho parlato = I spoke\nHo mangiato = I ate',q:'Ho mangiato?',opts:['I ate','I drink','I go'],ans:0,materials:[{type:'Text',title:'Grammatica Text'}]},
+  {name:'Vocabolario A2',icon:'📚',desc:'100 naye lafz.',body:'Pane = Bread, Acqua = Water',q:'Acqua?',opts:['Water','Bread','House'],ans:0,materials:[{type:'Text',title:'Vocabolario Text'}]}
+ ],
+ B1:[
+  {name:'Intermedio',icon:'🚀',desc:'Opinioni aur sapne.',body:'Penso che... = I think\nVorrei... = I would like',q:'Vorrei?',opts:['I would like','I hate','I go'],ans:0,materials:[{type:'Text',title:'Intermedio Text'}]},
+  {name:'Cultura',icon:'🇮🇹',desc:'Italia ki culture.',body:'Pizza Napoli se hai.',q:'Pizza kahan se?',opts:['Napoli','Roma','Milano'],ans:0,materials:[{type:'Video',title:'Cultura Video'}]}
+ ],
+ B2:[{name:'Avanzato',icon:'🎓',desc:'Debate aur kaam.',body:'Secondo me... = In my opinion',q:'Tuttavia?',opts:['However','Hello','Thanks'],ans:0,materials:[{type:'Text',title:'Avanzato Text'}]}]
+};
+let lives=[{title:'Conversazione A2',time:'Oggi 18:00',tutor:'Maria'},{title:'Grammatica B1',time:'Domani 10:00',tutor:'Luca'},{title:'Pronuncia A1',time:'Venerdì 17:00',tutor:'Giulia'}];
+let students=[{n:'Ahmed',p:true},{n:'Fatima',p:true},{n:'Ali',p:false},{n:'Sara',p:true},{n:'Bilal',p:true},{n:'Ayesha',p:false}];
+let currentLesson=null, editingLesson=null;
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');window.scrollTo(0,0);if(id==='home')render();}
+function setLevel(l,btn){currentLevel=l;document.querySelectorAll('#percorso .tabs button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('levelTitle').innerText=l;document.getElementById('pathText').innerText=l+' - '+lessons[l].length+' lezioni pronte.';render();}
+function render(){
+ document.getElementById('levelTabs').innerHTML=['A1','A2','B1','B2'].map(t=>`<button class="${t===currentLevel?'active':''}" onclick="setLevel('${t}',null)">${t}</button>`).join('');
+ document.getElementById('lessonGrid').innerHTML=lessons[currentLevel].map(l=>`<div class="card" onclick="openLessonByName('${l.name}')"><div class="icon">${l.icon}</div><h3>${l.name}</h3><p>${l.desc}</p><small>${currentLevel} • Lezione →</small></div>`).join('');
+ document.getElementById('liveHomeList').innerHTML=lives.map(l=>`<div class="live-card"><div><b>🔴 LIVE - ${l.title}</b><br><small>${l.time} con ${l.tutor}</small></div><button class="btn" onclick="go('live')">Prenota</button></div>`).join('');
+ document.getElementById('adminLiveList').innerHTML=lives.map((l,i)=>`<div class="row"><span><b>${l.title}</b> - ${l.time} con ${l.tutor}</span><button class="btn btn-red btn-sm" onclick="lives.splice(${i},1);render()">Delete</button></div>`).join('');
+ document.getElementById('adminLessonList').innerHTML=Object.keys(lessons).map(lv=>lessons[lv].map((l,i)=>`<div class="row"><span><b>${lv} - ${l.name}</b> - ${l.materials.length} materials</span><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-sm" onclick="openEdit('${lv}',${i})">✏️ Edit Mawad</button><button class="btn btn-red btn-sm" onclick="lessons['${lv}'].splice(${i},1);render()">🗑️ Delete</button></div></div>`).join('')).join('');
+ let att=students.map((s,i)=>`<div class="row"><span><b>${s.n}</b> - ${s.p?'✅ Present':'❌ Absent'}</span><div style="display:flex;gap:6px"><button class="btn btn-sm" onclick="students[${i}].p=true;render()">Present</button><button class="btn btn-red btn-sm" onclick="students[${i}].p=false;render()">Absent</button><button class="ghost" onclick="students.splice(${i},1);render()">X</button></div></div>`).join('');
+ document.getElementById('attDash').innerHTML=att;document.getElementById('attStudents').innerHTML=att;
+ document.getElementById('statStudents').innerText=students.length;document.getElementById('statLessons').innerText=Object.values(lessons).reduce((a,b)=>a+b.length,0);
+}
+function openLessonByName(name){for(let lv in lessons){let f=lessons[lv].find(x=>x.name===name);if(f){currentLesson=f;document.getElementById('lessonLevel').innerText=lv+' • Lezione';document.getElementById('lessonTop').innerText=f.name;document.getElementById('lessonName').innerText=f.name;document.getElementById('lessonDesc').innerText=f.desc;document.getElementById('lessonBody').innerText=f.body;document.getElementById('lessonMaterials').innerHTML=f.materials.map(m=>`<div class="row"><span><b>${m.type}:</b> ${m.title}</span></div>`).join('');document.getElementById('quizQ').innerText=f.q;document.getElementById('quizBtns').innerHTML=f.opts.map((o,i)=>`<button class="ghost" style="margin:4px" onclick="checkQuiz(${i})">${o}</button>`).join('');document.getElementById('quizResult').innerText='';go('lesson');return;}}}
+function checkQuiz(i){document.getElementById('quizResult').innerText=i===currentLesson.ans?'✅ Bravo! Risposta corretta!':'❌ Riprova';}
+function completeLesson(){alert('Bravo! '+currentLesson.name+' Completata ✅');go('home');}
+function addLesson(){let n=document.getElementById('newLessonName').value.trim();let lv=document.getElementById('newLevel').value;let b=document.getElementById('newLessonBody').value||'Teacher ne banayi.';if(!n)return alert('Naam likho');lessons[lv].push({name:n,icon:'📖',desc:'Nayi lesson - Teacher ne banayi',body:b,q:'Samajh aayi?',opts:['Haan','Thodi','Nahi'],ans:0,materials:[{type:'Text',title:n}]});render();alert('Lesson Add ✅');}
+function addStudent(){let n=document.getElementById('newStudent').value.trim();if(!n)return alert('Naam likho');students.push({n:n,p:true});render();alert('Student Add ✅');}
+function saveLive(){lives.unshift({title:document.getElementById('liveTitle').value,time:document.getElementById('liveTime').value,tutor:document.getElementById('liveTutor').value});render();alert('Live Save ✅');}
+function toggleCtrl(b){b.classList.toggle('off');b.innerText=b.classList.contains('off')?b.innerText+' OFF':b.innerText.replace(' OFF','');}
+function adminTab(id,btn){['dash','lessons','live','students','settings'].forEach(t=>document.getElementById('tab-'+t).style.display=t===id?'block':'none');document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+// EDIT MAWAD - TEACHER KA SAB SE ZAROORI HISSA
+function openEdit(lv,i){editingLesson={lv:lv,i:i};let l=lessons[lv][i];document.getElementById('editBox').style.display='block';document.getElementById('editLessonName').innerText=l.name;document.getElementById('editName').value=l.name;document.getElementById('editBody').value=l.body;renderMaterials();document.getElementById('editBox').scrollIntoView();}
+function renderMaterials(){let l=lessons[editingLesson.lv][editingLesson.i];document.getElementById('materialList').innerHTML=l.materials.map((m,mi)=>`<div class="row"><span><b>${m.type}:</b> ${m.title}</span><span><button class="ghost" onclick="editOne(${mi})">✏️ Edit</button> <button class="ghost" style="color:red" onclick="removeMaterial(${mi})">❌ Remove</button></span></div>`).join('');}
+function addMaterial(type){let t=prompt(type+' ka naam / link likho:');if(!t)return;lessons[editingLesson.lv][editingLesson.i].materials.push({type:type,title:t});renderMaterials();alert(type+' Add ✅');}
+function editOne(mi){let l=lessons[editingLesson.lv][editingLesson.i];let n=prompt('Naya naam:',l.materials[mi].title);if(n){l.materials[mi].title=n;renderMaterials();}}
+function removeMaterial(mi){if(confirm('Hatana hai?')){lessons[editingLesson.lv][editingLesson.i].materials.splice(mi,1);renderMaterials();alert('Remove ✅');}}
+function saveEdit(){let l=lessons[editingLesson.lv][editingLesson.i];l.name=document.getElementById('editName').value;l.body=document.getElementById('editBody').value;render();alert('Save ✅ - Student ko nayi wali dikhegi');closeEdit();}
+function closeEdit(){document.getElementById('editBox').style.display='none';}
+render();
+</script>
+</body>
+</html>
